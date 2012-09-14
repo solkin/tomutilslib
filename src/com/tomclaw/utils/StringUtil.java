@@ -595,8 +595,9 @@ public class StringUtil {
     return wrapText( text, width, font, false );
   }
 
-  public static String[] wrapText(String text, int width, Font font, boolean isHidden) {
+  public static String[] wrapText( String text, int width, Font font, boolean isHidden ) {
     int length = text.length();
+    /** FOr password use only **/
     if ( isHidden ) {
       text = "";
       for ( int c = 0; c < length; c++ ) {
@@ -604,6 +605,7 @@ public class StringUtil {
       }
     }
     Vector strings = new Vector();
+    /** Checking for string is short **/
     if ( font.stringWidth( text ) <= width ) {
       strings.addElement( text );
       String[] anArray = new String[ 1 ];
@@ -631,17 +633,19 @@ public class StringUtil {
           prevBrSymLoc = Math.max( prevBrSymLoc, subString.lastIndexOf( '\n' ) );
         }
         if ( prevBrSymLoc == -1 ) {
-          strings.addElement( subString );
-          offset += subString.length();
+          strings.addElement( subString.trim() );
+          offset += subString.length() + 1;
         } else {
           prevBrSymLoc++;
-          strings.addElement( subString.substring( 0, prevBrSymLoc ) );
+          strings.addElement( subString.substring( 0, prevBrSymLoc ).trim() );
+          /** Increasing offset **/
           offset += prevBrSymLoc;
+          /** Decreasing string pointer **/
           c -= subString.length() - prevBrSymLoc;
         }
       } else if ( c == text.length() - 1 ) {
         subString = text.substring( offset );
-        strings.addElement( subString );
+        strings.addElement( subString.trim() );
         break;
       }
     }
