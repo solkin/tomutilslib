@@ -11,11 +11,9 @@ package com.tomclaw.utils;
  */
 public class TagUtil {
 
-  public static String removeTags(String htmlData) {
+  public static String removeTags( String htmlData ) {
     String parsedData = new String();
-    /*
-     * Primary engine: removing HTML tags
-     */
+    /** Primary engine: removing HTML tags **/
     int offsetStart;
     int offsetStop;
     int oldOffset = 0;

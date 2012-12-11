@@ -1,12 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.tomclaw.utils;
 
 /**
- *
- * @author solkin
+ * Solkin Igor Viktorovich, TomClaw Software, 2003-2012
+ * http://www.tomclaw.com/
+ * @author Solkin
  */
 public class TimeUtil {
 
@@ -18,7 +15,7 @@ public class TimeUtil {
   final public static int TIME_MON = 4;
   final public static int TIME_YEAR = 5;
   final private static byte[] dayCounts =
-          new byte[]{ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+          new byte[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
   public static int gmtOffset = 4 * 3600;
   public static boolean summerTime = false;
 
@@ -102,7 +99,7 @@ public class TimeUtil {
 
     day = total_days; // day
 
-    return new int[]{ sec, min, hour, day, mon, year };
+    return new int[] { sec, min, hour, day, mon, year };
   }
 
   /** Creates string for time delay **/

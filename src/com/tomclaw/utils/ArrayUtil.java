@@ -13,11 +13,11 @@ public class ArrayUtil {
     this.byteString = new byte[] {};
   }
 
-  public ArrayUtil(byte[] byteString) {
+  public ArrayUtil( byte[] byteString ) {
     this.byteString = byteString;
   }
 
-  public byte[] append(byte aByte) {
+  public byte[] append( byte aByte ) {
     byte[] subByte = new byte[ byteString.length + 1 ];
     System.arraycopy( byteString, 0, subByte, 0, byteString.length );
     subByte[subByte.length - 1] = aByte;
@@ -25,17 +25,17 @@ public class ArrayUtil {
     return byteString;
   }
 
-  public byte[] subarray(int startPos, int endPos) {
+  public byte[] subarray( int startPos, int endPos ) {
     byte[] subByte = new byte[ endPos - startPos ];
     System.arraycopy( byteString, startPos, subByte, 0, endPos - startPos );
     return subByte;
   }
 
-  public byte[] append(byte[] append) {
+  public byte[] append( byte[] append ) {
     return append( append, 0, append.length );
   }
 
-  public byte[] append(byte[] append, int offset, int length) {
+  public byte[] append( byte[] append, int offset, int length ) {
     byte[] subByte = new byte[ byteString.length + length ];
     System.arraycopy( byteString, 0, subByte, 0, byteString.length );
     System.arraycopy( append, offset, subByte, byteString.length, length );
@@ -51,7 +51,7 @@ public class ArrayUtil {
     return new String( byteString );
   }
 
-  public int indexOf(byte[] data) {
+  public int indexOf( byte[] data ) {
     for ( int c = 0; c < byteString.length; c++ ) {
       boolean notEqualsFlag = false;
       for ( int i = 0; i < data.length; i++ ) {
@@ -67,7 +67,7 @@ public class ArrayUtil {
     return -1;
   }
 
-  public int indexOf(char ch) {
+  public int indexOf( char ch ) {
     for ( int c = 0; c < byteString.length; c++ ) {
       if ( byteString[c] == ch ) {
         return c;
@@ -76,7 +76,7 @@ public class ArrayUtil {
     return -1;
   }
 
-  public int lastIndexOf(char ch) {
+  public int lastIndexOf( char ch ) {
     int index = -1;
     for ( int c = 0; c < byteString.length; c++ ) {
       if ( byteString[c] == ch ) {
@@ -91,14 +91,14 @@ public class ArrayUtil {
   }
 
   /** Static metods **/
-  public static byte[] copyOfRange(byte[] array, int copyFrom, int copyTo) {
+  public static byte[] copyOfRange( byte[] array, int copyFrom, int copyTo ) {
     LogUtil.outMessage( "Arrays: " + "array.length=" + array.length + ", copyFrom=" + copyFrom + ", copyTo=" + copyTo );
     byte[] arrayDest = new byte[ copyTo - copyFrom ];
     System.arraycopy( array, copyFrom, arrayDest, 0, copyTo - copyFrom );
     return arrayDest;
   }
 
-  public static boolean equals(byte[] arrayA, byte[] arrayB) {
+  public static boolean equals( byte[] arrayA, byte[] arrayB ) {
     if ( arrayA.length == arrayB.length ) {
       for ( int c = 0; c < arrayA.length; c++ ) {
         if ( arrayA[c] != arrayB[c] ) {
@@ -111,7 +111,7 @@ public class ArrayUtil {
     return true;
   }
 
-  public static boolean equals(byte[] arrayA, byte[] arrayB, int length) {
+  public static boolean equals( byte[] arrayA, byte[] arrayB, int length ) {
     for ( int c = 0; c < length; c++ ) {
       if ( arrayA[c] != arrayB[c] ) {
         return false;
@@ -121,7 +121,7 @@ public class ArrayUtil {
     return true;
   }
 
-  public static boolean equals(int[] arrayA, int[] arrayB) {
+  public static boolean equals( int[] arrayA, int[] arrayB ) {
     if ( arrayA.length == arrayB.length ) {
       for ( int c = 0; c < arrayA.length; c++ ) {
         if ( arrayA[c] != arrayB[c] ) {
