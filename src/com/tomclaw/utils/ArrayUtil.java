@@ -7,10 +7,10 @@ package com.tomclaw.utils;
  */
 public class ArrayUtil {
 
-  public byte[] byteString = new byte[] {};
+  public byte[] byteString = new byte[]{};
 
   public ArrayUtil() {
-    this.byteString = new byte[] {};
+    this.byteString = new byte[]{};
   }
 
   public ArrayUtil( byte[] byteString ) {
@@ -90,9 +90,10 @@ public class ArrayUtil {
     byteString = new byte[ 0 ];
   }
 
-  /** Static metods **/
+  /** Static methods **/
   public static byte[] copyOfRange( byte[] array, int copyFrom, int copyTo ) {
-    LogUtil.outMessage( "Arrays: " + "array.length=" + array.length + ", copyFrom=" + copyFrom + ", copyTo=" + copyTo );
+    LogUtil.outMessage( "Arrays: " + "array.length=" + array.length
+            + ", copyFrom=" + copyFrom + ", copyTo=" + copyTo );
     byte[] arrayDest = new byte[ copyTo - copyFrom ];
     System.arraycopy( array, copyFrom, arrayDest, 0, copyTo - copyFrom );
     return arrayDest;
