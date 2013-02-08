@@ -23,7 +23,7 @@ public final class LogUtil {
   public static long startTime = 0;
   public static boolean isShowMessages = true;
 
-  public static void initLogger( boolean isOutToCons, boolean isOutToSock, 
+  public static void initLogger( boolean isOutToCons, boolean isOutToSock,
           String host, int port, boolean isOutToFile, String filePath ) {
     LogUtil.isOutToCons = isOutToCons;
     LogUtil.isOutToFile = isOutToFile;
@@ -56,7 +56,7 @@ public final class LogUtil {
   }
 
   public static void outMessage( Class clazz, Throwable ex ) {
-    outMessage( clazz.getName() + " :: " + ex.toString() + " [ " 
+    outMessage( clazz.getName() + " :: " + ex.toString() + " [ "
             + ex.getMessage() + " ]", true );
   }
 
@@ -87,7 +87,7 @@ public final class LogUtil {
   }
 
   public static OutputStream[] getOutputStreams() {
-    return new OutputStream[] { fileOutputStream, sockOutputStream,
+    return new OutputStream[]{ fileOutputStream, sockOutputStream,
               consOutputStream };
   }
 

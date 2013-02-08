@@ -48,7 +48,7 @@ public class Base64 {
     return new String( encoded );
   }
 
-  static private void encodeQuantum( byte[] in, int inOffset, int len, 
+  static private void encodeQuantum( byte[] in, int inOffset, int len,
           char[] out, int outOffset ) {
     byte a;
     byte b = 0;
@@ -77,7 +77,7 @@ public class Base64 {
     return Base64.decode( encoded, 0, encoded.length() );
   }
 
-  static public byte[] decode( String encoded, int offset, int length ) 
+  static public byte[] decode( String encoded, int offset, int length )
           throws java.io.IOException {
     int i;
     int decodedLen;
@@ -96,9 +96,9 @@ public class Base64 {
     i = 0;
     decodedLen = 0;
     while ( i < length ) {
-      Base64.decodeQuantum( encoded.charAt( offset + i ), 
-              encoded.charAt( ( offset + i ) + 1 ), 
-              encoded.charAt( ( offset + i ) + 2 ), 
+      Base64.decodeQuantum( encoded.charAt( offset + i ),
+              encoded.charAt( ( offset + i ) + 1 ),
+              encoded.charAt( ( offset + i ) + 2 ),
               encoded.charAt( ( offset + i ) + 3 ), decoded, decodedLen );
       i += 4;
       decodedLen += 3;
@@ -106,7 +106,7 @@ public class Base64 {
     return decoded;
   }
 
-  static private void decodeQuantum( char in1, char in2, char in3, char in4, 
+  static private void decodeQuantum( char in1, char in2, char in3, char in4,
           byte[] out, int outOffset ) throws java.io.IOException {
     int a;
     int b;

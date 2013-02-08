@@ -601,8 +601,8 @@ public class StringUtil {
    */
   public static String toXmlWellFormed( String string ) {
     LogUtil.outMessage( "To XML well formed" );
-    String[] symbols = new String[] { "&", "<", ">", "'", "\"" };
-    String[] replace = new String[] { "&amp;", "&lt;", "&gt;", "&apos;",
+    String[] symbols = new String[]{ "&", "<", ">", "'", "\"" };
+    String[] replace = new String[]{ "&amp;", "&lt;", "&gt;", "&apos;",
       "&quot;" };
     int location = 0;
     for ( int c = 0; c < symbols.length; c++ ) {
@@ -625,9 +625,9 @@ public class StringUtil {
    * @return String
    */
   public static String toStringFromXmlWellFormed( String string ) {
-    String[] symbols = new String[] { "&amp;", "&lt;", "&gt;", "&apos;",
+    String[] symbols = new String[]{ "&amp;", "&lt;", "&gt;", "&apos;",
       "&quot;" };
-    String[] replace = new String[] { "&", "<", ">", "'", "\"" };
+    String[] replace = new String[]{ "&", "<", ">", "'", "\"" };
     int location;
     for ( int c = 0; c < symbols.length; c++ ) {
       location = string.indexOf( symbols[c], 0 );

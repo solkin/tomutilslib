@@ -25,20 +25,25 @@ public class DrawUtil {
   /** Runtime **/
   public static int[] _rgbData;
 
-  public static void fillSharpVerticalGradient( Graphics g, int objX, int objY, int objWidth, int objHeight, int color1, int color2, int color3, int color4, int divPrc ) {
+  public static void fillSharpVerticalGradient( Graphics g, int objX, int objY, 
+          int objWidth, int objHeight, int color1, int color2, int color3, 
+          int color4, int divPrc ) {
     if ( isLightGraphics ) {
       g.setColor( color2 );
       g.fillRect( objX + 1, objY, objWidth - 2, objHeight );
       g.fillRect( objX, objY + 1, objWidth, objHeight - 2 );
     } else {
       int objHeightHalf = ( objHeight * divPrc ) / 100;
-      fillVerticalGradient( g, objX, objY, objWidth, objHeightHalf + 1, color1, color2 );
+      fillVerticalGradient( g, objX, objY, objWidth, objHeightHalf + 1, 
+              color1, color2 );
       objY += objHeightHalf;
-      fillVerticalGradient( g, objX, objY, objWidth, objHeight - objHeightHalf, color3, color4 );
+      fillVerticalGradient( g, objX, objY, objWidth, objHeight - objHeightHalf, 
+              color3, color4 );
     }
   }
 
-  public static void fillVerticalGradient( Graphics g, int objX, int objY, int objWidth, int objHeight, int color1, int color2 ) {
+  public static void fillVerticalGradient( Graphics g, int objX, int objY, 
+          int objWidth, int objHeight, int color1, int color2 ) {
     if ( isLightGraphics ) {
       g.setColor( color2 );
       g.fillRect( objX, objY, objWidth + 1, objHeight );
@@ -371,8 +376,10 @@ public class DrawUtil {
               B += b * total;
               A += a * total;
               addon = part - total;
-              lines[j++] = ( ( R / imageWidth ) << 16 ) | ( ( G / imageWidth ) << 8 )
-                      | ( B / imageWidth ) | ( ( A / imageWidth ) << 24 ); // A??
+              lines[j++] = ( ( R / imageWidth ) << 16 ) 
+                      | ( ( G / imageWidth ) << 8 )
+                      | ( B / imageWidth ) 
+                      | ( ( A / imageWidth ) << 24 ); // A??
             }
             total -= part;
           }
@@ -412,8 +419,10 @@ public class DrawUtil {
             total = destWidth - addon;
           }
           // set new pixel
-          lines[j++] = ( ( R / imageWidth ) << 16 ) | ( ( G / imageWidth ) << 8 )
-                  | ( B / imageWidth ) | ( ( A / imageWidth ) << 24 ); // A??
+          lines[j++] = ( ( R / imageWidth ) << 16 ) 
+                  | ( ( G / imageWidth ) << 8 )
+                  | ( B / imageWidth ) 
+                  | ( ( A / imageWidth ) << 24 ); // A??
         }
       }
     }
@@ -453,10 +462,14 @@ public class DrawUtil {
               addon = part - total;
 ///set new pixel
               if ( 0 != A ) {
-                columns[j] = ( ( R / imageHeight ) << 16 ) | ( ( G / imageHeight ) << 8 )
+                columns[j] = ( ( R / imageHeight ) << 16 ) 
+                        | ( ( G / imageHeight ) << 8 )
                         | ( B / imageHeight ) | 0xff000000; // A??
               } else {
-                columns[j] = 0;//((R/imageHeight)<<16)|((G/imageHeight)<<8)|(B/imageHeight); // A??
+                columns[j] = 0;
+                //((R/imageHeight)<<16)
+                //|((G/imageHeight)<<8)
+                //|(B/imageHeight); // A??
               }
               j += destWidth;
             }
@@ -501,10 +514,14 @@ public class DrawUtil {
           }
           // set new pixel
           if ( 0 != A ) {
-            columns[j] = ( ( R / imageHeight ) << 16 ) | ( ( G / imageHeight ) << 8 )
+            columns[j] = ( ( R / imageHeight ) << 16 ) 
+                    | ( ( G / imageHeight ) << 8 )
                     | ( B / imageHeight ) | 0xff000000; // A??
           } else {
-            columns[j] = 0;//((R/imageHeight)<<16)|((G/imageHeight)<<8)|(B/imageHeight);
+            columns[j] = 0;
+            //((R/imageHeight)<<16)
+            //|((G/imageHeight)<<8)
+            //|(B/imageHeight);
           }
           j += destWidth;
         }
@@ -647,7 +664,8 @@ public class DrawUtil {
       _rgbData[c] = color;
     }
     gr.drawRGB( _rgbData, 0, ( isHorizontal ? length : 1 ), x, y,
-            ( isHorizontal ? length : 1 ), ( isHorizontal ? 1 : length ), true );
+            ( isHorizontal ? length : 1 ), 
+            ( isHorizontal ? 1 : length ), true );
   }
 
   public static void fillRect( Graphics gr, int x, int y, int width,

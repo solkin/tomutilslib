@@ -114,7 +114,8 @@ public class DataUtil {
     return 4;
   }
 
-  public static void putArray_reversed( byte[] buf, int offset, byte[] array ) {
+  public static void putArray_reversed( byte[] buf, int offset,
+          byte[] array ) {
     for ( int c = offset; c < array.length + offset; c++ ) {
       buf[c] = array[array.length - 1 - ( c - offset )];
     }
@@ -265,7 +266,8 @@ public class DataUtil {
   public static String getMetaString( int offset, byte data[] ) {
     String metaString;
     int length = get16_reversed( data, offset );
-    metaString = new String( data ).substring( offset + 2, offset + 2 + length - 1 );
+    metaString = new String( data ).substring( offset + 2,
+            offset + 2 + length - 1 );
     metaString += " ";
     offset += length;
     return metaString;
@@ -278,7 +280,8 @@ public class DataUtil {
     }
   }
 
-  static public byte[] byteStringToBytes( String text, char separator, int radix ) {
+  static public byte[] byteStringToBytes( String text, char separator,
+          int radix ) {
     String[] strings = explode( text, separator );
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     String item;
