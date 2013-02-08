@@ -9,7 +9,7 @@ import java.util.Vector;
 import javax.microedition.lcdui.Font;
 
 /**
- * Solkin Igor Viktorovich, TomClaw Software, 2003-2012
+ * Solkin Igor Viktorovich, TomClaw Software, 2003-2013
  * http://www.tomclaw.com/
  * @author Игорь
  */
@@ -663,24 +663,44 @@ public class StringUtil {
   }
 
   /**
-   * Decode byte array in win1251 encoding into string
-   * @param encodedString
+   * Extract a UCS-2LE string from the specified buffer (buf) starting at 
+   * position off, ending at position off+len
+   * @param buf
+   * @param off
+   * @param len
    * @return String
    */
-  public static String byteArrayToString1251( byte[] encodedString ) {
-    StringBuffer decodedString = new StringBuffer();
-    for ( int c = 0; c < encodedString.length; c += 2 ) {
-      decodedString.append( ( char ) DataUtil.get16_reversed( encodedString, c ) );
+  public static String ucs2leByteArrayToString( byte[] buf, int off, int len ) {
+
+    // Length check
+    if ( ( off + len > buf.length ) || ( len % 2 != 0 ) ) {
+      return ( null );
     }
-    return decodedString.toString();
+
+    // Convert
+    StringBuffer sb = new StringBuffer();
+    for ( int i = off; i < off + len; i += 2 ) {
+      sb.append( ( char ) DataUtil.get16_reversed( buf, i ) );
+    }
+    return ( sb.toString() );
+
   }
 
-  public static byte[] stringTobyteArray1251( String string ) {
-    byte[] encodedString = new byte[ string.length() * 2 ];
+  /**
+   * Extracts a UCS-2LE string from the specified buffer (buf)
+   * @param buf
+   * @return String
+   */
+  public static String ucs2leByteArrayToString( byte[] buf ) {
+    return ( ucs2leByteArrayToString( buf, 0, buf.length ) );
+  }
+
+  public static byte[] stringToUcs2leByteArray( String string ) {
+    byte[] data = new byte[ string.length() * 2 ];
     for ( int c = 0; c < string.length(); c++ ) {
-      DataUtil.put16_reversed( encodedString, c * 2, string.charAt( c ) );
+      DataUtil.put16_reversed( data, c * 2, string.charAt( c ) );
     }
-    return encodedString;
+    return data;
   }
 
   /**
