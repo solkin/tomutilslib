@@ -663,18 +663,24 @@ public class StringUtil {
   }
 
   /**
-   * Decode byte array into string
+   * Decode byte array in win1251 encoding into string
    * @param encodedString
    * @return String
    */
-  public static String getWin1251( byte[] encodedString ) {
+  public static String byteArrayToString1251( byte[] encodedString ) {
     StringBuffer decodedString = new StringBuffer();
-    int ch;
     for ( int c = 0; c < encodedString.length; c += 2 ) {
-      ch = DataUtil.get16_reversed( encodedString, c );
-      decodedString.append( ( char ) ch );
+      decodedString.append( ( char ) DataUtil.get16_reversed( encodedString, c ) );
     }
     return decodedString.toString();
+  }
+
+  public static byte[] stringTobyteArray1251( String string ) {
+    byte[] encodedString = new byte[ string.length() * 2 ];
+    for ( int c = 0; c < string.length(); c++ ) {
+      DataUtil.put16_reversed( encodedString, c * 2, string.charAt( c ) );
+    }
+    return encodedString;
   }
 
   /**
