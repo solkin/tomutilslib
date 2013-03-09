@@ -22,33 +22,23 @@ public class DrawUtil {
   private static int sRed__ = 0;
   private static int sGreen = 0;
   private static int sBlue_ = 0;
-  /** Runtime **/
-  public static int[] _rgbData;
 
-  public static void fillSharpVerticalGradient( Graphics g, int objX, int objY, 
-          int objWidth, int objHeight, int color1, int color2, int color3, 
+  public static void fillSharpVerticalGradient( Graphics g, int objX, int objY,
+          int objWidth, int objHeight, int color1, int color2, int color3,
           int color4, int divPrc ) {
-    if ( isLightGraphics ) {
-      g.setColor( color2 );
-      g.fillRect( objX + 1, objY, objWidth - 2, objHeight );
-      g.fillRect( objX, objY + 1, objWidth, objHeight - 2 );
-    } else {
-      int objHeightHalf = ( objHeight * divPrc ) / 100;
-      fillVerticalGradient( g, objX, objY, objWidth, objHeightHalf + 1, 
-              color1, color2 );
-      objY += objHeightHalf;
-      fillVerticalGradient( g, objX, objY, objWidth, objHeight - objHeightHalf, 
-              color3, color4 );
-    }
+    int objHeightHalf = ( objHeight * divPrc ) / 100;
+    fillVerticalGradient( g, objX, objY, objWidth, objHeightHalf + 1,
+            color1, color2 );
+    objY += objHeightHalf;
+    fillVerticalGradient( g, objX, objY, objWidth, objHeight - objHeightHalf,
+            color3, color4 );
   }
 
-  public static void fillVerticalGradient( Graphics g, int objX, int objY, 
+  public static void fillVerticalGradient( Graphics g, int objX, int objY,
           int objWidth, int objHeight, int color1, int color2 ) {
-    if ( isLightGraphics ) {
-      g.setColor( color2 );
-      g.fillRect( objX, objY, objWidth + 1, objHeight );
+    if ( color1 == color2 ) {
       g.setColor( color1 );
-      g.fillRect( objX + 2, objY + 2, objWidth - 4 + 1, objHeight / 2 );
+      g.fillRect( objX, objY, objWidth, objHeight );
     } else {
       /** Primary colors **/
       pRed__ = ( color1 & 0xFF0000 ) >> 16;
@@ -58,29 +48,30 @@ public class DrawUtil {
       sRed__ = ( color2 & 0xFF0000 ) >> 16;
       sGreen = ( color2 & 0x00FF00 ) >> 8;
       sBlue_ = ( color2 & 0x0000FF );
-      /** Drawing gradient **/
-      for ( int y = 0; y < objHeight; y++ ) {
-        g.setColor( ( sRed__ - pRed__ ) * y / objHeight + pRed__,
-                ( sGreen - pGreen ) * y / objHeight + pGreen,
-                ( sBlue_ - pBlue_ ) * y / objHeight + pBlue_ );
-        g.drawLine( objX, objY + y, objX + objWidth, objY + y );
+      if ( isLightGraphics ) {
+        /** Drawing rectangle for middle color **/
+        g.setColor( ( sRed__ - pRed__ ) / 2 + pRed__,
+                ( sGreen - pGreen ) / 2 + pGreen,
+                ( sBlue_ - pBlue_ ) / 2 + pBlue_ );
+        g.fillRect( objX, objY, objWidth, objHeight );
+      } else {
+        /** Drawing gradient **/
+        for ( int y = 0; y < objHeight; y++ ) {
+          g.setColor( ( sRed__ - pRed__ ) * y / objHeight + pRed__,
+                  ( sGreen - pGreen ) * y / objHeight + pGreen,
+                  ( sBlue_ - pBlue_ ) * y / objHeight + pBlue_ );
+          g.drawLine( objX, objY + y, objX + objWidth - 1, objY + y );
+        }
       }
     }
   }
 
   public static void drawVerticalGradientBorder( Graphics g, int objX,
           int objY, int objWidth, int objHeight, int color1, int color2 ) {
-    if ( isLightGraphics ) {
-      g.setColor( color2 );
-      g.drawRect( objX + 1, objY, objWidth - 2, objHeight );
-      g.drawRect( objX, objY + 1, objWidth, objHeight - 2 );
-    } else {
-      /** Drawing horizontal lines **/
+    if ( color1 == color2 ) {
       g.setColor( color1 );
-      g.drawLine( objX, objY, objX + objWidth, objY );
-      g.setColor( color2 );
-      g.drawLine( objX, objY + objHeight, objX + objWidth, objY + objHeight );
-      /** Drawing vertical lines **/
+      g.drawRect( objX, objY, objWidth, objHeight );
+    } else {
       /** Primary colors **/
       pRed__ = ( color1 & 0xFF0000 ) >> 16;
       pGreen = ( color1 & 0x00FF00 ) >> 8;
@@ -89,13 +80,28 @@ public class DrawUtil {
       sRed__ = ( color2 & 0xFF0000 ) >> 16;
       sGreen = ( color2 & 0x00FF00 ) >> 8;
       sBlue_ = ( color2 & 0x0000FF );
-      /** Drawing gradient **/
-      for ( int y = 0; y < objHeight; y++ ) {
-        g.setColor( ( sRed__ - pRed__ ) * y / objHeight + pRed__,
-                ( sGreen - pGreen ) * y / objHeight + pGreen,
-                ( sBlue_ - pBlue_ ) * y / objHeight + pBlue_ );
-        g.drawLine( objX, objY + y, objX, objY + y );
-        g.drawLine( objX + objWidth, objY + y, objX + objWidth, objY + y );
+      objHeight--;
+      objWidth--;
+      if ( isLightGraphics ) {
+        /** Drawing rectangle for middle color **/
+        g.setColor( ( sRed__ - pRed__ ) / 2 + pRed__,
+                ( sGreen - pGreen ) / 2 + pGreen,
+                ( sBlue_ - pBlue_ ) / 2 + pBlue_ );
+        g.drawRect( objX, objY, objWidth, objHeight );
+      } else {
+        /** Drawing horizontal lines **/
+        g.setColor( color1 );
+        g.drawLine( objX, objY, objX + objWidth, objY );
+        g.setColor( color2 );
+        g.drawLine( objX, objY + objHeight, objX + objWidth, objY + objHeight );
+        /** Drawing vertical lines **/
+        for ( int y = 0; y < objHeight; y++ ) {
+          g.setColor( ( sRed__ - pRed__ ) * y / objHeight + pRed__,
+                  ( sGreen - pGreen ) * y / objHeight + pGreen,
+                  ( sBlue_ - pBlue_ ) * y / objHeight + pBlue_ );
+          g.drawLine( objX, objY + y, objX, objY + y );
+          g.drawLine( objX + objWidth, objY + y, objX + objWidth, objY + y );
+        }
       }
     }
   }
@@ -103,26 +109,19 @@ public class DrawUtil {
   public static void fillSharpHorizontalGradient( Graphics g, int objX,
           int objY, int objWidth, int objHeight, int color1, int color2,
           int color3, int color4 ) {
-    if ( isLightGraphics ) {
-      g.setColor( color2 );
-      g.fillRect( objX + 1, objY, objWidth - 2, objHeight );
-      g.fillRect( objX, objY + 1, objWidth, objHeight - 2 );
-    } else {
-      int objWidthHalf = objWidth / 2;
-      fillHorizontalGradient( g, objX, objY, objWidthHalf, objHeight,
-              color1, color2 );
-      objX += objWidthHalf;
-      fillHorizontalGradient( g, objX, objY, objWidthHalf, objHeight,
-              color3, color4 );
-    }
+    int objWidthHalf = objWidth / 2;
+    fillHorizontalGradient( g, objX, objY, objWidthHalf, objHeight,
+            color1, color2 );
+    objX += objWidthHalf;
+    fillHorizontalGradient( g, objX, objY, objWidthHalf, objHeight,
+            color3, color4 );
   }
 
   public static void fillHorizontalGradient( Graphics g, int objX, int objY,
           int objWidth, int objHeight, int color1, int color2 ) {
-    if ( isLightGraphics ) {
-      g.setColor( color2 );
-      g.drawRect( objX + 1, objY, objWidth - 2, objHeight );
-      g.drawRect( objX, objY + 1, objWidth, objHeight - 2 );
+    if ( color1 == color2 ) {
+      g.setColor( color1 );
+      g.fillRect( objX, objY, objWidth, objHeight );
     } else {
       /** Primary colors **/
       pRed__ = ( color1 & 0xFF0000 ) >> 16;
@@ -132,29 +131,31 @@ public class DrawUtil {
       sRed__ = ( color2 & 0xFF0000 ) >> 16;
       sGreen = ( color2 & 0x00FF00 ) >> 8;
       sBlue_ = ( color2 & 0x0000FF );
-      /** Drawing gradient **/
-      for ( int x = 0; x < objWidth; x++ ) {
-        g.setColor( ( sRed__ - pRed__ ) * x / objWidth + pRed__,
-                ( sGreen - pGreen ) * x / objWidth + pGreen,
-                ( sBlue_ - pBlue_ ) * x / objWidth + pBlue_ );
-        g.drawLine( objX + x, objY, objX + x, objY + objHeight );
+      if ( isLightGraphics ) {
+        /** Drawing rectangle for middle color **/
+        g.setColor( ( sRed__ - pRed__ ) / 2 + pRed__,
+                ( sGreen - pGreen ) / 2 + pGreen,
+                ( sBlue_ - pBlue_ ) / 2 + pBlue_ );
+        g.fillRect( objX, objY, objWidth, objHeight );
+      } else {
+        /** Drawing gradient **/
+        for ( int x = 0; x < objWidth; x++ ) {
+          g.setColor( ( sRed__ - pRed__ ) * x / objWidth + pRed__,
+                  ( sGreen - pGreen ) * x / objWidth + pGreen,
+                  ( sBlue_ - pBlue_ ) * x / objWidth + pBlue_ );
+          g.drawLine( objX + x, objY, objX + x, objY + objHeight - 1 );
+        }
       }
     }
   }
+      
 
-  public static void drawHorizontalGradientBorder( Graphics g, int objX,
+    public static void drawHorizontalGradientBorder( Graphics g, int objX,
           int objY, int objWidth, int objHeight, int color1, int color2 ) {
-    if ( isLightGraphics ) {
-      g.setColor( color2 );
-      g.drawRect( objX + 1, objY, objWidth - 2, objHeight );
-      g.drawRect( objX, objY + 1, objWidth, objHeight - 2 );
-    } else {
-      /** Drawing horizontal lines **/
+    if ( color1 == color2 ) {
       g.setColor( color1 );
-      g.drawLine( objX, objY, objX, objY + objHeight );
-      g.setColor( color2 );
-      g.drawLine( objX + objWidth, objY, objX + objWidth, objY + objHeight );
-      /** Drawing vertical lines **/
+      g.drawRect( objX, objY, objWidth, objHeight );
+    } else {
       /** Primary colors **/
       pRed__ = ( color1 & 0xFF0000 ) >> 16;
       pGreen = ( color1 & 0x00FF00 ) >> 8;
@@ -163,13 +164,28 @@ public class DrawUtil {
       sRed__ = ( color2 & 0xFF0000 ) >> 16;
       sGreen = ( color2 & 0x00FF00 ) >> 8;
       sBlue_ = ( color2 & 0x0000FF );
-      /** Drawing gradient **/
-      for ( int x = 0; x < objWidth; x++ ) {
-        g.setColor( ( sRed__ - pRed__ ) * x / objWidth + pRed__,
-                ( sGreen - pGreen ) * x / objWidth + pGreen,
-                ( sBlue_ - pBlue_ ) * x / objWidth + pBlue_ );
-        g.drawLine( objX + x, objY, objX + x, objY );
-        g.drawLine( objX + x, objY + objHeight, objX + x, objY + objHeight );
+      objHeight--;
+      objWidth--;
+      if ( isLightGraphics ) {
+        /** Drawing rectangle for middle color **/
+        g.setColor( ( sRed__ - pRed__ ) / 2 + pRed__,
+                ( sGreen - pGreen ) / 2 + pGreen,
+                ( sBlue_ - pBlue_ ) / 2 + pBlue_ );
+        g.drawRect( objX, objY, objWidth, objHeight );
+      } else {
+        /** Drawing vertical lines **/
+        g.setColor( color1 );
+      g.drawLine( objX, objY, objX, objY + objHeight );
+      g.setColor( color2 );
+      g.drawLine( objX + objWidth, objY, objX + objWidth, objY + objHeight );
+        /** Drawing horizontal lines **/
+        for ( int x = 0; x < objWidth; x++ ) {
+          g.setColor( ( sRed__ - pRed__ ) * x / objWidth + pRed__,
+                  ( sGreen - pGreen ) * x / objWidth + pGreen,
+                  ( sBlue_ - pBlue_ ) * x / objWidth + pBlue_ );
+          g.drawLine( objX + x, objY, objX + x, objY );
+          g.drawLine( objX + x, objY + objHeight, objX + x, objY + objHeight );
+        }
       }
     }
   }
@@ -376,9 +392,9 @@ public class DrawUtil {
               B += b * total;
               A += a * total;
               addon = part - total;
-              lines[j++] = ( ( R / imageWidth ) << 16 ) 
+              lines[j++] = ( ( R / imageWidth ) << 16 )
                       | ( ( G / imageWidth ) << 8 )
-                      | ( B / imageWidth ) 
+                      | ( B / imageWidth )
                       | ( ( A / imageWidth ) << 24 ); // A??
             }
             total -= part;
@@ -419,9 +435,9 @@ public class DrawUtil {
             total = destWidth - addon;
           }
           // set new pixel
-          lines[j++] = ( ( R / imageWidth ) << 16 ) 
+          lines[j++] = ( ( R / imageWidth ) << 16 )
                   | ( ( G / imageWidth ) << 8 )
-                  | ( B / imageWidth ) 
+                  | ( B / imageWidth )
                   | ( ( A / imageWidth ) << 24 ); // A??
         }
       }
@@ -462,7 +478,7 @@ public class DrawUtil {
               addon = part - total;
 ///set new pixel
               if ( 0 != A ) {
-                columns[j] = ( ( R / imageHeight ) << 16 ) 
+                columns[j] = ( ( R / imageHeight ) << 16 )
                         | ( ( G / imageHeight ) << 8 )
                         | ( B / imageHeight ) | 0xff000000; // A??
               } else {
@@ -514,7 +530,7 @@ public class DrawUtil {
           }
           // set new pixel
           if ( 0 != A ) {
-            columns[j] = ( ( R / imageHeight ) << 16 ) 
+            columns[j] = ( ( R / imageHeight ) << 16 )
                     | ( ( G / imageHeight ) << 8 )
                     | ( B / imageHeight ) | 0xff000000; // A??
           } else {
@@ -560,9 +576,7 @@ public class DrawUtil {
     int imageHeight = sourceImage.getHeight();
     int[] rgbData = new int[ imageWidth * imageHeight ];
     sourceImage.getRGB( rgbData, 0, imageWidth, 0, 0, imageWidth, imageHeight );
-    int r;
-    int g;
-    int b;
+    int r, g, b;
     int currPoint;
     int grayColor;
     for ( int y = 0; y < imageHeight * imageWidth; y++ ) {
@@ -584,10 +598,7 @@ public class DrawUtil {
     int imageHeight = sourceImage.getHeight();
     int[] rgbData = new int[ imageWidth * imageHeight ];
     sourceImage.getRGB( rgbData, 0, imageWidth, 0, 0, imageWidth, imageHeight );
-    int a;
-    int r;
-    int g;
-    int b;
+    int a, r, g, b;
     int currPoint;
     for ( int y = 0; y < imageHeight * imageWidth; y++ ) {
       currPoint = rgbData[y];
@@ -654,26 +665,97 @@ public class DrawUtil {
     return Image.createRGBImage( rgbData, imageWidth, imageHeight, true );
   }
 
-  public static void drawLine( Graphics gr, int x, int y, int length,
-          boolean isHorizontal, int color ) {
-    length++;
-    if ( length > _rgbData.length ) {
-      length = _rgbData.length;
+  public static Image drawCornerShadow( int i, int j, int k, int l ) {
+    int i1 = i >>> 24;
+    i &= 0xffffff;
+    int ai[] = new int[ j * k ];
+    int j1 = 0;
+    int k1 = 0;
+    byte byte0 = 0;
+    int l1 = 0;
+    switch ( l ) {
+      case 0: // '\0'
+        j1 = 1;
+        k1 = -j + 1;
+        byte0 = -1;
+        l1 = k - 1;
+        break;
+
+      case 1: // '\001'
+        j1 = 1;
+        k1 = 0;
+        byte0 = -1;
+        l1 = k - 1;
+        break;
+
+      case 2: // '\002'
+        j1 = 1;
+        k1 = 0;
+        byte0 = 1;
+        l1 = 0;
+        break;
+
+      case 3: // '\003'
+        j1 = 1;
+        k1 = -j + 1;
+        byte0 = 1;
+        l1 = 0;
+        break;
     }
-    for ( int c = 0; c < length; c++ ) {
-      _rgbData[c] = color;
+    for ( l = 0; l < j; l++ ) {
+      for ( int i2 = 0; i2 < k; i2++ ) {
+        float f1 = l * j1 + k1;
+        int j2 = i2 * byte0 + l1;
+        f1 = (float) Math.sqrt( f1 * f1 + j2 * j2 );
+        j2 = (int) ( ( (float) i1 * ( f1 - (float) j )
+                * ( f1 - (float) j ) ) / (float) ( j * j ) );
+        if ( f1 > (float) j ) {
+          j2 = 0;
+        }
+        if ( j2 < 0 ) {
+          j2 = 0;
+        }
+        ai[l + j * i2] = j2 << 24 | i;
+      }
     }
-    gr.drawRGB( _rgbData, 0, ( isHorizontal ? length : 1 ), x, y,
-            ( isHorizontal ? length : 1 ), 
-            ( isHorizontal ? 1 : length ), true );
+    return Image.createRGBImage( ai, j, k, true );
   }
 
-  public static void fillRect( Graphics gr, int x, int y, int width,
-          int height, int color ) {
-    _rgbData = new int[ width * height ];
-    for ( int c = 0; c < _rgbData.length; c++ ) {
-      _rgbData[c] = color;
+  public static Image drawShadow( int i, int j, int k, int l ) {
+    int i1 = i >>> 24;
+    i &= 0xffffff;
+    int ai[] = new int[ j * k ];
+    if ( l == 0 || l == 2 ) {
+      for ( int j1 = 0; j1 < j; j1++ ) {
+        int l1 = j - 1 - j1;
+        if ( l == 2 ) {
+          l1 = j1;
+        }
+        l1 = ( i1 * ( l1 - j ) * ( l1 - j ) ) / ( j * j );
+        for ( int j2 = 0; j2 < k; j2++ ) {
+          ai[j1 + j * j2] = l1 << 24 | i;
+        }
+      }
+    } else {
+      for ( int k1 = 0; k1 < k; k1++ ) {
+        int i2 = k - 1 - k1;
+        if ( l == 3 ) {
+          i2 = k1;
+        }
+        i2 = ( i1 * ( i2 - k ) * ( i2 - k ) ) / ( k * k );
+        for ( int k2 = 0; k2 < j; k2++ ) {
+          ai[k2 + j * k1] = i2 << 24 | i;
+        }
+      }
     }
-    gr.drawRGB( _rgbData, 0, width, x, y, width, height, true );
+    return Image.createRGBImage( ai, j, k, true );
+  }
+
+  public static Image fillShadow( int i, int j, int k ) {
+    int ai[] = new int[ j * k ];
+    for ( int k1 = 0; k1 < ai.length; k1++ ) {
+      ai[k1] = i;
+    }
+    return Image.createRGBImage( ai, j, k, true );
   }
 }
